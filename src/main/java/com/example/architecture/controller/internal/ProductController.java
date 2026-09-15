@@ -1,5 +1,7 @@
-package com.example.architecture.internal;
+package com.example.architecture.controller.internal;
 
+import com.example.architecture.repository.product.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 /*
@@ -9,5 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 */
 
 @RestController
+@RequiredArgsConstructor
 public class ProductController {
+    private final ProductRepository productRepository;
 }

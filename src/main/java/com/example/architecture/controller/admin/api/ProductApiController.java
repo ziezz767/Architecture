@@ -1,5 +1,7 @@
-package com.example.architecture.admin.api;
+package com.example.architecture.controller.admin.api;
 
+import com.example.architecture.repository.product.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 /*
@@ -8,5 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 */
 
 @RestController
+@RequiredArgsConstructor
 public class ProductApiController {
+    private final ProductRepository productRepository;
 }

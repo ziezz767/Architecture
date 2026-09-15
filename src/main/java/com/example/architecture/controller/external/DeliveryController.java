@@ -1,5 +1,7 @@
-package com.example.architecture.external;
+package com.example.architecture.controller.external;
 
+import com.example.architecture.repository.payment.PaymentRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 /*
@@ -9,5 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 */
 
 @RestController
+@RequiredArgsConstructor
 public class DeliveryController {
+    private final PaymentRepository paymentRepository;
 }

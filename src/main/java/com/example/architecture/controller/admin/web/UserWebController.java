@@ -1,5 +1,7 @@
-package com.example.architecture.admin.web;
+package com.example.architecture.controller.admin.web;
 
+import com.example.architecture.repository.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
 /*
@@ -10,7 +12,8 @@ import org.springframework.stereotype.Controller;
       관리하기 위해 만들어진 페이지이므로 이미 만들어 놓은 페이지를 관리자에게 빠르게 보여주기 위해 만든 컨트롤러
 */
 
-
 @Controller
+@RequiredArgsConstructor
 public class UserWebController {
+    private final UserRepository userRepository;
 }

@@ -1,5 +1,7 @@
-package com.example.architecture.internal;
+package com.example.architecture.controller.internal;
 
+import com.example.architecture.repository.payment.PaymentRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 /*
@@ -8,7 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
     - 고객이 기존에 구매했던 구매 건을 취소하는 경우 - Hard Delete 가 아닌 Soft Delete 상태로 변경
 */
 
-
 @RestController
+@RequiredArgsConstructor
 public class PaymentController {
+    private final PaymentRepository paymentRepository;
 }
