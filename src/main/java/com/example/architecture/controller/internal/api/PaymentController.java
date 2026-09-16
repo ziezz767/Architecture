@@ -1,4 +1,4 @@
-package com.example.architecture.controller.internal;
+package com.example.architecture.controller.internal.api;
 
 import com.example.architecture.repository.payment.PaymentRepository;
 import lombok.RequiredArgsConstructor;
