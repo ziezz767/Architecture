@@ -1,8 +1,8 @@
 package com.example.architecture.controller.internal.api;
 
+import com.example.architecture.application.PaymentApplication;
 import com.example.architecture.controller.internal.api.dto.PaymentCreateRequestDto;
 import com.example.architecture.controller.internal.api.dto.PaymentResponseDto;
-import com.example.architecture.service.payment.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class PaymentController {
-    private final PaymentService paymentService;
+    private final PaymentApplication paymentApplication;
 
     // 결제
     @RequestMapping(method = RequestMethod.POST, value = "/internal/api/payments")
@@ -26,7 +26,7 @@ public class PaymentController {
         Integer requestedUserId = request.getRequestUserId();
         List<Integer> productIds = request.getProductIds();
 
-        return paymentService.payment(productIds, requestedUserId);
+        return paymentApplication.payment(productIds, requestedUserId);
     }
 
     // 결제 취소
@@ -34,7 +34,7 @@ public class PaymentController {
     public PaymentResponseDto cancel(@PathVariable Integer id, @RequestBody PaymentCreateRequestDto request) {
         Integer requestedUserId = request.getRequestUserId();
 
-        return paymentService.cancel(id, requestedUserId);
+        return paymentApplication.cancel(id, requestedUserId);
     }
 
 }

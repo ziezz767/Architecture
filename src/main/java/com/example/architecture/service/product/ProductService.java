@@ -1,6 +1,5 @@
 package com.example.architecture.service.product;
 
-import com.example.architecture.controller.internal.api.dto.ProductResponseDto;
 import com.example.architecture.repository.product.Product;
 import com.example.architecture.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,19 +13,30 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    // 전체 조회
-    public List<ProductResponseDto> retrieve() {
-        List<Product> entity = productRepository.findAll();
-        return entity.stream()
-                .map(ProductResponseDto::from)
-                .toList();
+    // findAll
+    public List<Product> getProducts() {
+        return productRepository.findAll();
     }
 
-    // 상세 조회
-    public ProductResponseDto retrieve(Integer id) {
-        Optional<Product> WrappedProduct = productRepository.findById(id);
+    // findById
+    public Product getProduct(Integer productId) {
+        Optional<Product> WrappedProduct = productRepository.findById(productId);
                  Product         product = WrappedProduct
-                .orElseThrow(() -> new RuntimeException("찾으시는 유저가 존재하지 않습니다."));
-        return ProductResponseDto.from(product);
+                .orElseThrow(() -> new RuntimeException("결제한 상품이 존재하지 않습니다."));
+        return product;
     }
+
+    // findById (Optional)
+    public Optional<Product> findProduct(Integer id) {
+        return productRepository.findById(id);
+    }
+
+    // update
+    public Product update(Product entity) {
+        Optional<Product> WrappedProduct = productRepository.update(entity);
+                 Product         product = WrappedProduct
+                .orElseThrow(() -> new RuntimeException("업데이트가 정상적으로 되지 않습니다."));
+        return product;
+    }
+
 }
