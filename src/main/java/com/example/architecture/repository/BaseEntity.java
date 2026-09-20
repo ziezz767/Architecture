@@ -1,6 +1,7 @@
 package com.example.architecture.repository;
 
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
     - updatedAt : 언제 '갱신'되었는가?
     - updatedBy : 누가 '갱신'하였는가?
 */
+@ToString
 @Getter
 public class BaseEntity {
     private Integer id;
