@@ -31,12 +31,19 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    // update
+    // update (단일)
     public Product update(Product entity) {
         Optional<Product> WrappedProduct = productRepository.update(entity);
                  Product         product = WrappedProduct
                 .orElseThrow(() -> new RuntimeException("업데이트가 정상적으로 되지 않습니다."));
         return product;
+    }
+
+    // update (다수)
+    public List<Product> update(List<Product> entities) {
+        return entities.stream()
+                .map(this::update)
+                .toList();
     }
 
 }
