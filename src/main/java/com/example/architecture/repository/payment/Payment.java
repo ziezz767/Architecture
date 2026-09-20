@@ -19,17 +19,9 @@ public class Payment extends BaseEntity {
 
     private List<Integer> productIds;
     private int paidPrice;
-
-    @Setter
     private PaymentStatus status = PaymentStatus.IN_PAYMENT;
-
-    @Setter
     private LocalDateTime purchasedAt;  // 결제 완료 시점
-
-    @Setter
     private LocalDateTime deliveredAt;  // 배송 완료 시점
-
-    @Setter
     private LocalDateTime cancelledAt;  // 취소 완료 시점
 
     private Payment(Integer id, List<Integer> productIds, int paidPrice, Integer userId) {
@@ -56,5 +48,31 @@ public class Payment extends BaseEntity {
                 paidPrice,
                 userId
         );
+    }
+
+    // 구매 완료
+    public void complete(Integer requestUserId) {
+        if (!requestUserId.equals(super.getCreatedBy())) {
+            throw new RuntimeException("취소하려는 유저와 취소하려는 결제를 수행한 유저가 다릅니다.");
+        }
+        if (this.status.compareTo(PaymentStatus.PAYMENT_COMPLETE) > 0) {
+            throw new RuntimeException("결제 완료로 상태를 바꿀 수 없는 결제 건입니다.");
+        }
+        this.status = PaymentStatus.PAYMENT_COMPLETE;
+        this.purchasedAt = LocalDateTime.now();
+        super.updated(requestUserId);
+    }
+
+    // 구매 취소
+    public void cancel(Integer requestedUserId) {
+        if (!requestedUserId.equals(super.createdBy)) {
+            throw new RuntimeException("취소하려는 유저와 취소하려는 결제를 수행한 유저가 다릅니다.");
+        }
+        if (!this.status.isCancellable()) {
+            throw new RuntimeException("취소하시려는 결제는 취소할 수 없는 상태입니다.");
+        }
+        this.status = PaymentStatus.CANCEL_COMPLETE;
+        this.cancelledAt = LocalDateTime.now();
+        super.updated(requestedUserId);
     }
 }

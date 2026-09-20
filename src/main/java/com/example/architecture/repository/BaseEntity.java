@@ -17,12 +17,12 @@ import java.time.LocalDateTime;
 @ToString
 @Getter
 public class BaseEntity {
-    private Integer id;
-    private boolean deleted = false;
-    private LocalDateTime createdAt;
-    private       Integer createdBy;
-    private LocalDateTime updatedAt;
-    private       Integer updatedBy;
+    protected Integer id;
+    protected boolean deleted = false;
+    protected LocalDateTime createdAt;
+    protected       Integer createdBy;
+    protected LocalDateTime updatedAt;
+    protected       Integer updatedBy;
 
     protected BaseEntity(Integer id, Integer userId) {
         this.id = id;
@@ -32,7 +32,7 @@ public class BaseEntity {
         this.updatedBy = userId;
     }
 
-    public void updated(Integer userId) {
+    protected void updated(Integer userId) {
         this.updatedAt = LocalDateTime.now();
         this.updatedBy = userId;
     }

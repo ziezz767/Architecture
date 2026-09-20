@@ -26,30 +26,24 @@ public class PaymentApplication {
 
         for (Integer productId : productIds) {
             Product product =  productService.getProduct(productId);
-            if (product.getStock() < 1) {
-                throw new RuntimeException("구매하시려는 상품의 재고가 존재하지 않습니다.");
-            }
+            product.buyable();
             products.add(product);
         }
 
         // 2. 실제 구매 완료
         Payment creating = Payment.create(products, requestedUserId);
-        creating.setStatus(PaymentStatus.PAYMENT_COMPLETE);
-        creating.setPurchasedAt(LocalDateTime.now());
-        creating.updated(requestedUserId);
-
-        Payment payment = paymentService.create(creating);
-
+        creating.complete(requestedUserId);
+        Payment created = paymentService.create(creating);
 
         // 3. 구매가 완료된 상품들에 대해서 재고 1개씩 차감
         for (Product product : products) {
-            product.setStock(product.getStock() - 1);
+            product.decrease();
             productService.update(product);
         }
 
         // 4. Dto로 변환 후, 반환
         return PaymentResponseDto.builder()
-                .payment(payment)
+                .payment(created)
                 .products(products)
                 .build();
     }
@@ -60,13 +54,7 @@ public class PaymentApplication {
         Payment payment = paymentService.getPayment(id);
 
         // 2. 취소 완료 (결제 엔티티의 일반 필드들 상태 변환)
-        PaymentStatus currentStatus = payment.getStatus();
-        if (!currentStatus.isCancellable()) {
-            throw new RuntimeException("취소하시려는 결제는 취소할 수 없는 상태입니다.");
-        }
-        payment.setStatus(PaymentStatus.CANCEL_COMPLETE);
-        payment.setCancelledAt(LocalDateTime.now());
-        payment.updated(requestedUserId);
+        payment.cancel(requestedUserId);
         paymentService.update(payment);
 
         // 3. 취소한 결제건에 들어있던 모든 상품들의 재고를 1 증가시키며 롤백 (다른 엔티티의 필드들 상태 변환)
@@ -74,7 +62,7 @@ public class PaymentApplication {
         List<Integer> productIds = payment.getProductIds();
         for (Integer productId : productIds) {
             Product product = productService.getProduct(productId);
-            product.setStock(product.getStock() + 1);
+            product.increase();
             productService.update(product);
             products.add(product);
         }
