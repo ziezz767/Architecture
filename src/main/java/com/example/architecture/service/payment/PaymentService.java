@@ -1,7 +1,7 @@
 package com.example.architecture.service.payment;
 
+import com.example.architecture.repository.IRepository;
 import com.example.architecture.repository.payment.Payment;
-import com.example.architecture.repository.payment.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
-    private final PaymentRepository paymentRepository;
+    private final IRepository<Integer, Payment> paymentRepository;
 
     // findById
     public Payment getPayment(Integer id) {

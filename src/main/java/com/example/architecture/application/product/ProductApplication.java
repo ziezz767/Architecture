@@ -1,4 +1,4 @@
-package com.example.architecture.application;
+package com.example.architecture.application.product;
 
 import com.example.architecture.controller.internal.api.dto.ProductResponseDto;
 import com.example.architecture.repository.product.Product;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ProductApplication {
+public class ProductApplication implements IProductApplication{
     private final ProductService productService;
 
     // 전체 조회

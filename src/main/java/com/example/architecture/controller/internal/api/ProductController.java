@@ -1,6 +1,6 @@
 package com.example.architecture.controller.internal.api;
 
-import com.example.architecture.application.ProductApplication;
+import com.example.architecture.application.product.IProductApplication;
 import com.example.architecture.controller.internal.api.dto.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class ProductController {
-    private final ProductApplication productApplication;
+    private final IProductApplication productApplication;
 
     // 전체 조회
     @RequestMapping(method = RequestMethod.GET, value = "/internal/api/products")

@@ -1,6 +1,6 @@
 package com.example.architecture.controller.internal.api;
 
-import com.example.architecture.application.PaymentApplication;
+import com.example.architecture.application.payment.IPaymentApplication;
 import com.example.architecture.controller.internal.api.dto.PaymentCreateRequestDto;
 import com.example.architecture.controller.internal.api.dto.PaymentResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class PaymentController {
-    private final PaymentApplication paymentApplication;
+    private final IPaymentApplication paymentApplication;
 
     // 결제
     @RequestMapping(method = RequestMethod.POST, value = "/internal/api/payments")

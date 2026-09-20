@@ -1,4 +1,4 @@
-package com.example.architecture.application;
+package com.example.architecture.application.payment;
 
 import com.example.architecture.controller.internal.api.dto.PaymentResponseDto;
 import com.example.architecture.repository.payment.Payment;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PaymentApplication {
+public class PaymentApplication implements IPaymentApplication{
     private final PaymentService paymentService;
     private final ProductService productService;
 

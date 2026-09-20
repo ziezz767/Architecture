@@ -1,7 +1,7 @@
 package com.example.architecture.service.product;
 
+import com.example.architecture.repository.IRepository;
 import com.example.architecture.repository.product.Product;
-import com.example.architecture.repository.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ProductService {
-    private final ProductRepository productRepository;
+    private final IRepository<Integer, Product> productRepository;
 
     // findAll
     public List<Product> getProducts() {
