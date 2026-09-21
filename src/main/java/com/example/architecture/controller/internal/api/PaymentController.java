@@ -1,6 +1,7 @@
 package com.example.architecture.controller.internal.api;
 
 import com.example.architecture.application.payment.IPaymentApplication;
+import com.example.architecture.common.context.UserContext;
 import com.example.architecture.controller.internal.api.dto.PaymentCreateRequestDto;
 import com.example.architecture.controller.internal.api.dto.PaymentResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -25,16 +26,18 @@ public class PaymentController {
     public PaymentResponseDto payment(@RequestBody PaymentCreateRequestDto request) {
         Integer requestedUserId = request.getRequestUserId();
         List<Integer> productIds = request.getProductIds();
-
-        return paymentApplication.payment(productIds, requestedUserId);
+        try (UserContext.ContextScope ignored = UserContext.withUser(requestedUserId)) {
+            return paymentApplication.payment(productIds);
+        }
     }
 
     // 결제 취소
     @RequestMapping(method = RequestMethod.PATCH, value = "/internal/api/payments/{id}/cancel")
     public PaymentResponseDto cancel(@PathVariable Integer id, @RequestBody PaymentCreateRequestDto request) {
         Integer requestedUserId = request.getRequestUserId();
-
-        return paymentApplication.cancel(id, requestedUserId);
+        try (UserContext.ContextScope ignored = UserContext.withUser(requestedUserId)) {
+            return paymentApplication.cancel(id);
+        }
     }
 
 }

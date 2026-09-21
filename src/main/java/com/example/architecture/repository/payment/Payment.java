@@ -1,5 +1,6 @@
 package com.example.architecture.repository.payment;
 
+import com.example.architecture.common.context.UserContext;
 import com.example.architecture.repository.BaseEntity;
 import com.example.architecture.repository.product.Product;
 import lombok.Getter;
@@ -31,8 +32,10 @@ public class Payment extends BaseEntity {
     }
 
     // userId => 누가 구매를 하였는지
-    public static Payment create(List<Product> products, Integer userId) {
+    public static Payment create(List<Product> products) {
         int generatedId = idGenerator();
+
+        Integer currentId = UserContext.getUserId(); // 누가 구매를 하였는지
 
         List<Integer> productIds = products.stream()
                 .map(Product::getId)
@@ -46,13 +49,14 @@ public class Payment extends BaseEntity {
                 generatedId,
                 productIds,
                 paidPrice,
-                userId
+                currentId
         );
     }
 
     // 구매 완료
-    public void complete(Integer requestUserId) {
-        if (!requestUserId.equals(super.getCreatedBy())) {
+    public void complete() {
+        Integer currentUserId = UserContext.getUserId();
+        if (!currentUserId.equals(super.getCreatedBy())) {
             throw new RuntimeException("취소하려는 유저와 취소하려는 결제를 수행한 유저가 다릅니다.");
         }
         if (this.status.compareTo(PaymentStatus.PAYMENT_COMPLETE) > 0) {
@@ -60,12 +64,13 @@ public class Payment extends BaseEntity {
         }
         this.status = PaymentStatus.PAYMENT_COMPLETE;
         this.purchasedAt = LocalDateTime.now();
-        super.updated(requestUserId);
+        super.updated();
     }
 
     // 구매 취소
-    public void cancel(Integer requestedUserId) {
-        if (!requestedUserId.equals(super.createdBy)) {
+    public void cancel() {
+        Integer currentUserId = UserContext.getUserId();
+        if (!currentUserId.equals(super.createdBy)) {
             throw new RuntimeException("취소하려는 유저와 취소하려는 결제를 수행한 유저가 다릅니다.");
         }
         if (!this.status.isCancellable()) {
@@ -73,6 +78,6 @@ public class Payment extends BaseEntity {
         }
         this.status = PaymentStatus.CANCEL_COMPLETE;
         this.cancelledAt = LocalDateTime.now();
-        super.updated(requestedUserId);
+        super.updated();
     }
 }

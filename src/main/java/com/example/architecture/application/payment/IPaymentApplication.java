@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface IPaymentApplication {
     // 결제
-    PaymentResponseDto payment(List<Integer> productIds, Integer requestedUserId);
+    PaymentResponseDto payment(List<Integer> productIds);
 
     // 결제 취소
-    PaymentResponseDto cancel(Integer id, Integer requestedUserId);
+    PaymentResponseDto cancel(Integer id);
 }

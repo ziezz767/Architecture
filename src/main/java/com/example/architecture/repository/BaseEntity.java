@@ -1,5 +1,6 @@
 package com.example.architecture.repository;
 
+import com.example.architecture.common.context.UserContext;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -32,8 +33,9 @@ public class BaseEntity {
         this.updatedBy = userId;
     }
 
-    protected void updated(Integer userId) {
+    protected void updated() {
+        Integer currentUserId = UserContext.getUserId();
         this.updatedAt = LocalDateTime.now();
-        this.updatedBy = userId;
+        this.updatedBy = currentUserId;
     }
 }
